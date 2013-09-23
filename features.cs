@@ -144,28 +144,9 @@ function RotMapFeatureRoom::addDoors(%this)
 			if(%x < 0 || %y < 0 || %x >= %this.width || %y >= %this.height)
 				continue;
 			//echo("Door check("@%x@ "," @%y@ "|" @%left SPC %right SPC %top SPC %bottom@ "): Left" SPC RotMap.map.m[%x-1,%y] SPC "Up" SPC RotMap.map.m[%x,%y+1] SPC "Right" SPC RotMap.map.m[%x+1,%y] SPC "Down" SPC RotMap.map.m[%x,%y-1]);
-			if(%x == %left && RotMap.map.m[%x-1,%y] != 0)
-			{
-				//echo("Cant place door to left");
-				continue;
-			}
-			if(%x == %right && RotMap.map.m[%x+1,%y] != 0)
-			{
-				//echo("Cant place door to right");
-				continue;
-			}
-			if(%y == %top && RotMap.map.m[%x,%y+1] != 0)
-			{
-				//echo("Cant place door up");
-				continue;
-			}
-			if(%y == %bottom && RotMap.map.m[%x,%y-1] != 0)
-			{
-				//echo("Cant palce door down");
-				continue;
-			}
+
 			%this.addDoor(%x,%y);
-			RotMap.digCallback(%x,%y,0);
+			//RotMap.digCallback(%x,%y,2);
 		}
 	}
 	
