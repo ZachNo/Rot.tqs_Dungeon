@@ -5,7 +5,7 @@ So yeah.
 Usage:
 Execute map.cs
 Use RotMap.call(x amount, y amount);
-then can RotMap.create();
+then call RotMap.create();
 And it outputs the map to console.
 
 Fun.
