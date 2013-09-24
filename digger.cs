@@ -29,20 +29,20 @@ function RotMap::create(%this)
 	%this.firstRoom();
 	
 	%t1 = getRealTime();
-	echo("Entering create map while loop");
+	//echo("Entering create map while loop");
 	while(%this.dug/%area < %this.options.dugPercentage || %priorityWalls)
 	{
 		%t2 = getRealTime();
 		if(%t2 - %t1 > %this.options.timeLimit)
 		{
-			echo("Time limit exceeded");
+			//echo("Time limit exceeded");
 			break;
 		}
 		%wall = %this.findWall();
 		//echo("Wall " @ %wall);
 		if(%wall == -1 || %wall $= "")
 		{
-			echo("Ended wall nonexistant");
+			//echo("Ended wall nonexistant");
 			break;
 		}
 		%parts = strReplace(%wall,"_"," ");
@@ -76,7 +76,7 @@ function RotMap::create(%this)
 			}
 		}
 	}
-	echo("Create ended:" SPC %this.dug/%area @"<"@ %this.options.dugPercentage);
+	//echo("Create ended:" SPC %this.dug/%area @"<"@ %this.options.dugPercentage);
 	
 	%this.addDoors();
 	dumpMapToConsole();
@@ -94,7 +94,7 @@ function RotMap::digCallback(%this,%x,%y,%value)
 	//echo("Digcallback:" SPC %x SPC %y SPC %value);
 	if(%value == 0 || %value == 2)
 	{
-		%this.map.m[%x,%y] = 0;
+		%this.map.m[%x,%y] = %value;
 		%this.dug++;
 	}
 	else
@@ -155,7 +155,7 @@ function RotMap::findWall(%this)
 	
 	if(!%arr.count)
 	{
-		echo("Count = 0!" SPC %arr.count);
+		//echo("Count = 0!" SPC %arr.count);
 		return -1;
 	}
 	%id = %arr.p[getRandom(1,%arr.count)];
@@ -267,7 +267,7 @@ function RotMap::getDiggingDirection(%this,%cx,%cy)
 		if(%x < 0 || %y < 0 || %x >= %this.width || %y >= %this.width)
 			return "";
 		
-		if(!%this.map.m[%x,%y])
+		if(%this.map.m[%x,%y] != 1)
 		{
 			if(%result)
 				return "";

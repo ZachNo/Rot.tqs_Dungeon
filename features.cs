@@ -14,7 +14,7 @@ function ROTMapFeatureRoom::init(%this,%x1,%y1,%x2,%y2,%doorx,%doory)
 	%r.y1 = %y1;
 	%r.y2 = %y2;
 	%r.doors = new simGroup();
-	echo("Room creation:" SPC %x1 SPC %y1 SPC %x2 SPC %y2 SPC %doorx SPC %doory);
+	//echo("Room creation:" SPC %x1 SPC %y1 SPC %x2 SPC %y2 SPC %doorx SPC %doory);
 	if(%doorx >= 0 && %doory >= 0)
 	{
 		//echo("Init room with door @ (" @ %doorx SPC %doorx @ ")");
@@ -103,20 +103,19 @@ function RotMapFeatureRoom::addDoor(%this,%x,%y)
 	//%this.doors.d[%x,%y] = 1;
 	%d = new scriptObject();
 	%d.x = %x;
-	%d.y = %x;
+	%d.y = %y;
 	%this.doors.add(%d);
 	return %this;
 }
 
 function RotMapFeatureRoom::getDoors(%this,%callback)
 {
-	echo("Not supported for testing reasons");
-	//for(%i=0;%i<%this.doors.getCount();%i++)
-	//{
-	//	%o = %this.doors.getObject(%i);
-	//	echo("Door(" @ %o.x @ ", " @ %o.y @ ")");
-	//}
-	//return %this;
+	for(%i=0;%i<%this.doors.getCount();%i++)
+	{
+		%o = %this.doors.getObject(%i);
+		echo("Door(" @ %o.x @ ", " @ %o.y @ ")");
+	}
+	return %this;
 }
 
 function RotMapFeatureRoom::clearDoors(%this)
@@ -143,19 +142,13 @@ function RotMapFeatureRoom::addDoors(%this)
 				continue;
 			if(%x < 0 || %y < 0 || %x >= %this.width || %y >= %this.height)
 				continue;
-			//echo("Door check("@%x@ "," @%y@ "|" @%left SPC %right SPC %top SPC %bottom@ "): Left" SPC RotMap.map.m[%x-1,%y] SPC "Up" SPC RotMap.map.m[%x,%y+1] SPC "Right" SPC RotMap.map.m[%x+1,%y] SPC "Down" SPC RotMap.map.m[%x,%y-1]);
-
+			
 			%this.addDoor(%x,%y);
 			//RotMap.digCallback(%x,%y,2);
 		}
 	}
 	
 	return %this;
-}
-
-function RotMapFeatureRoom::debug(%this)
-{
-	echo("room" SPC %this.x1 SPC %this.y1 SPC %this.x2 SPC %this.y2);
 }
 
 function RotMapFeatureRoom::isValid(%this)
@@ -185,24 +178,6 @@ function RotMapFeatureRoom::isValid(%this)
 	return 1;
 }
 
-function searchDoors(%sim,%x,%y)
-{
-	//echo("Searching for doors");
-	//%sim.dump();
-	for(%i=0;%i<%sim.getCount();%i++)
-	{
-		//echo(%sim.getCount());
-		%d = %sim.getObject(%i);
-		//echo(%d SPC %sim.getCount());
-		if(%d.x == %x && %d.y == %y)
-		{
-			echo("Found door");
-			return 1;
-		}
-	}
-	return 0;
-}
-
 function RotMapFeatureRoom::create(%this)
 {
 	//echo("Room creation called");
@@ -216,16 +191,6 @@ function RotMapFeatureRoom::create(%this)
 	{
 		for(%y=%top;%y<%bottom;%y++)
 		{
-			//if(searchDoors(%this.doors,%x,%y))
-			//{
-				//echo("Adding door @ (" @ %x SPC %y @ ")");
-			//	%value = 2;
-			//}
-			//if(%this.doors.d[%x,%y] == 1)
-			//{
-			//	%value = 2;
-			//	echo("Door found for creation");
-			//}
 			if(%x == %left || %x ==  %right || %y == %top || %y ==  %bottom)
 			{
 				%value = 1;
@@ -237,6 +202,7 @@ function RotMapFeatureRoom::create(%this)
 			for(%i=0;%i<%c;%i++)
 			{
 				%d = %this.doors.getObject(%i);
+				//echo("Creating door @" SPC %d.x SPC %d.y);
 				RotMap.digCallback(%d.x,%d.y,2);
 			}
 		}
@@ -289,11 +255,6 @@ function RotMapFeatureCorridor::createRandomAt(%this,%x,%y,%dx,%dy,%options)
 	%length =  %min + mFloor(getRandom()*(%max-%min+1));
 	
 	return %this.init(%x,%y,%x + %dx*%length, %y + %dy*%length);
-}
-
-function RotMapFeatureCorridor::debug(%this)
-{
-	echo("corridor" SPC %this.startX SPC %this.startY SPC %this.endX SPC %this.endY);
 }
 
 function RotMapFeatureCorridor::isValid(%this)
@@ -373,7 +334,7 @@ function RotMapFeatureCorridor::create(%this)
 	{
 		%x = %sx + %i*%dx;
 		%y = %sy + %i*%dy;
-		RotMap.digCallback(%x,%y,0);
+		RotMap.digCallback(%x,%y,2);
 	}
 	
 	return 1;
