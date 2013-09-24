@@ -9,3 +9,6 @@ then call RotMap.create();
 And it outputs the map to console.
 
 Fun.
+
+I found out where the doors issue is coming from.
+When the rooms are initially generated it creates a door position, but it can make it in really weird places sometimes...
