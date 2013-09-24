@@ -171,6 +171,7 @@ function RotMap::tryFeature(%this,%x,%y,%dx,%dy)
 {
 	%f = (getRandom(0,1) ? "R" : "C");
 	%a = "RotMapF" @ %f;
+	//echo("Trying feature create" SPC %a);
 	%feature = %a.createRandomAt(%x,%y,%dx,%dy,%this.options);
 	
 	if(!%feature.isValid())
@@ -179,7 +180,7 @@ function RotMap::tryFeature(%this,%x,%y,%dx,%dy)
 		//echo("Feature deleted, invalid");
 		return 0;
 	}
-	
+	//echo("Calling .create()" SPC %a);
 	%feature.create();
 	
 	if(%f $= "R")
