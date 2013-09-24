@@ -27,8 +27,37 @@ function ROTMap::getCorridors(%this)
 {
 	return %this.corridors;
 }
+function RotMap::exportToKoG(%this)
+{
+	%dungeon = Dungeon(%this.width,%this.height);
+	for(%y=0;%y<%this.height;%y++)
+	{
+		for(%x=0;%x<%this.width;%x++)
+		{
+			%obj = "";
+			%data = %this.map.m[%x,%y];
+			switch$ (%data)
+			{
+				case 0: %obj = Room();
+				case 2: %obj = Corridor();
+			}
+		}
+	}
+	if(isObject(%obj))
+		%dungeon.setGridObject(%x,%y,%obj);
+	return %dungeon;
+}
+
+function generateDiggerDungeon(%width,%height)
+{
+	RotMap.call(%width,%height);
+	%dungeon = RotMap.create();
+	return %dungeon;
+}
+
 exec("./digger.cs");
 exec("./features.cs");
+
 function dumpMapToConsole()
 {
 	%line = "";
