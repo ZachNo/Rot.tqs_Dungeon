@@ -83,10 +83,10 @@ function RotMap::create(%this)
 	
 	%this.walls.delete();
 	%this.map.delete();
-	%this.walls = new scriptobject();
-	%this.map = new scriptObject();
+	%this.rooms.delete();
+	%this.corridors.delete();
 	
-	return %this;
+	return %r;
 }
 
 function RotMap::digCallback(%this,%x,%y,%value)
@@ -94,7 +94,7 @@ function RotMap::digCallback(%this,%x,%y,%value)
 	//echo("Digcallback:" SPC %x SPC %y SPC %value);
 	if(%value == 0 || %value == 2)
 	{
-		%this.map.m[%x,%y] = %value;
+		%this.map.m[%x,%y] = 0;
 		%this.dug++;
 	}
 	else

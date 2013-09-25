@@ -6,8 +6,6 @@ function ROTMap::init(%this,%width,%height)
 {
 	%this.width = %width;
 	%this.height = %height;
-//	%this.rooms = Array();
-//	%this.corridors = Array();
 }
 function ROTMap::fillMap(%this,%value)
 {
@@ -27,8 +25,10 @@ function ROTMap::getCorridors(%this)
 {
 	return %this.corridors;
 }
+
 exec("./digger.cs");
 exec("./features.cs");
+
 function dumpMapToConsole()
 {
 	%line = "";
